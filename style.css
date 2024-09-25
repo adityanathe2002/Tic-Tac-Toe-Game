@@ -91,22 +91,4 @@ main{
         margin-left: 35%;
     }
 }
-/* @media (max-width: 1200px) {
-    .game {
-        width: 99vmin;
-        height: 90vmin;
-    }
-    .box {
-        height: 28vmin;
-        width: 28vmin;
-        font-size: 5vmin;
-    }
-    #msg {
-        font-size: 5vmin;
-    }
-    #reset-btn, #new-btn {
-        padding: 0.5rem;
-        font-size: 0.900rem;
-    }
-} */
 
