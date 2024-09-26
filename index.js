@@ -1,3 +1,78 @@
+// let boxes = document.querySelectorAll(".box");
+// let resetBtn = document.querySelector("#reset-btn");
+// let newGameBtn = document.querySelector("#new-btn");
+// let msgContainer = document.querySelector(".msg-container");
+// let msg = document.querySelector("#msg");
+
+// let turnO = true;
+
+// const winPatterns = [
+//   [0, 1, 2],
+//   [0, 3, 6],
+//   [0, 4, 8],
+//   [1, 4, 7],
+//   [2, 5, 8],
+//   [2, 4, 6],
+//   [3, 4, 5],
+//   [6, 7, 8],
+// ];
+
+// const resetGame=()=>{
+//     turnO=true;
+//     enableBoxes();
+//     msgContainer.classList.add("hide");
+// };
+
+// boxes.forEach((box) => {
+//   box.addEventListener("click", () => {
+//     if (turnO) {
+//       box.innerText = "O";
+//       turnO = false;
+//     } else {
+//       box.innerText = "X";
+//       turnO = true;
+//     }
+//     box.disabled = true;
+
+//     checkWinner();
+//   });
+// });
+
+// const disabledBoxes=(winner)=>{
+//     for(let box of boxes){
+//         box.disabled=true;
+//     }
+// }
+// const enableBoxes=(winner)=>{
+//     for(let box of boxes){
+//         box.disabled=false;
+//         box.innerText="";
+//     }
+// }
+
+// const showWinner=(winner)=>{
+//     msg.innerText=`Congratulations, winner is ${winner}`;
+//     msgContainer.classList.remove("hide")
+//     disabledBoxes();
+// }
+
+// const checkWinner = (winner) => {
+//   for (pattern of winPatterns) {
+//     let pos1Val = boxes[pattern[0]].innerText;
+//     let pos2Val = boxes[pattern[1]].innerText;
+//     let pos3Val = boxes[pattern[2]].innerText;
+
+//     if (pos1Val != "" && pos2Val != "" && pos1Val != "") {
+//       if (pos1Val === pos2Val && pos2Val === pos3Val) {
+//         showWinner(pos1Val);
+//       }
+//     }
+//   }
+// };
+
+// newGameBtn.addEventListener("click",resetGame);
+// resetBtn.addEventListener("click",resetGame);
+
 let boxes = document.querySelectorAll(".box");
 let resetBtn = document.querySelector("#reset-btn");
 let newGameBtn = document.querySelector("#new-btn");
@@ -17,10 +92,10 @@ const winPatterns = [
   [6, 7, 8],
 ];
 
-const resetGame=()=>{
-    turnO=true;
-    enableBoxes();
-    msgContainer.classList.add("hide");
+const resetGame = () => {
+  turnO = true;
+  enableBoxes();
+  msgContainer.classList.add("hide");
 };
 
 boxes.forEach((box) => {
@@ -38,32 +113,61 @@ boxes.forEach((box) => {
   });
 });
 
-const disabledBoxes=(winner)=>{
-    for(let box of boxes){
-        box.disabled=true;
+const disabledBoxes = () => {
+  for (let box of boxes) {
+    box.disabled = true;
+  }
+};
+
+const enableBoxes = () => {
+  for (let box of boxes) {
+    box.disabled = false;
+    box.innerText = "";
+  }
+};
+
+const showWinner = (winner) => {
+  msg.innerText = `Congratulations, winner is ${winner}`;
+  msgContainer.classList.remove("hide");
+  disabledBoxes();
+  celebrateWin(); // Trigger confetti celebration
+};
+
+// Confetti celebration function
+const celebrateWin = () => {
+  const duration = 3 * 1000; // Celebration lasts for 3 seconds
+  const end = Date.now() + duration;
+
+  // Generate random confetti in intervals
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: ["#ff0", "#f00", "#0f0"], // Customize confetti colors
+    });
+    confetti({
+      particleCount: 5,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: ["#ff0", "#f00", "#0f0"],
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
     }
-}
-const enableBoxes=(winner)=>{
-    for(let box of boxes){
-        box.disabled=false;
-        box.innerText="";
-    }
-}
+  })();
+};
 
-const showWinner=(winner)=>{
-    msg.innerText=`Congratulations, winner is ${winner}`;
-    msgContainer.classList.remove("hide")
-    disabledBoxes();
-}
-
-
-const checkWinner = (winner) => {
-  for (pattern of winPatterns) {
+const checkWinner = () => {
+  for (let pattern of winPatterns) {
     let pos1Val = boxes[pattern[0]].innerText;
     let pos2Val = boxes[pattern[1]].innerText;
     let pos3Val = boxes[pattern[2]].innerText;
 
-    if (pos1Val != "" && pos2Val != "" && pos1Val != "") {
+    if (pos1Val !== "" && pos2Val !== "" && pos1Val !== "") {
       if (pos1Val === pos2Val && pos2Val === pos3Val) {
         showWinner(pos1Val);
       }
@@ -71,9 +175,5 @@ const checkWinner = (winner) => {
   }
 };
 
-newGameBtn.addEventListener("click",resetGame);
-resetBtn.addEventListener("click",resetGame);
-
-
-
-
+newGameBtn.addEventListener("click", resetGame);
+resetBtn.addEventListener("click", resetGame);
